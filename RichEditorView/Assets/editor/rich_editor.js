@@ -419,7 +419,31 @@ window.onload = function () {
     RE.callback("ready");
 };
 
-RE.getHTMLOfSelection = function () {
+RE.getSelectedHTML = function () {
+    var range;
+    if (document.selection && document.selection.createRange) {
+        range = document.selection.createRange();
+        return range.htmlText;
+    }
+    else if (window.getSelection) {
+        var selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            range = selection.getRangeAt(0);
+            var clonedSelection = range.cloneContents();
+            var div = document.createElement('div');
+            div.appendChild(clonedSelection);
+            return div.innerHTML;
+        }
+        else {
+            return '';
+        }
+    }
+    else {
+        return '';
+    }
+}
+
+RE.getParentBlock = function () {
     var isStart = true;
     var range, sel, container;
     if (document.selection) {
@@ -452,4 +476,55 @@ RE.getHTMLOfSelection = function () {
             return container.nodeType === 3 ? container.parentNode.tagName : container.tagName;
         }
     }
+}
+
+RE.getSelectedHTMLBlock = function () {
+    var isStart = true;
+    var range, sel, container;
+    if (document.selection) {
+        range = document.selection.createRange();
+        range.collapse(isStart);
+        return range.parentElement().innerHTML;
+    } else {
+        sel = window.getSelection();
+        if (sel.getRangeAt) {
+            if (sel.rangeCount > 0) {
+                range = sel.getRangeAt(0);
+            }
+        } else {
+            // Old WebKit
+            range = document.createRange();
+            range.setStart(sel.anchorNode, sel.anchorOffset);
+            range.setEnd(sel.focusNode, sel.focusOffset);
+
+            // Handle the case when the selection was selected backwards (from the end to the start in the document)
+            if (range.collapsed !== sel.isCollapsed) {
+                range.setStart(sel.focusNode, sel.focusOffset);
+                range.setEnd(sel.anchorNode, sel.anchorOffset);
+            }
+        }
+
+        if (range) {
+            container = range[isStart ? "startContainer" : "endContainer"];
+
+            // Check if the container is a text node and return its parent if so
+            return container.nodeType === 3 ? container.parentNode.innerHTML : container.innerHTML;
+        }
+    }
+}
+
+RE.getSelectionText = function () {
+    var text = "";
+    var activeEl = document.activeElement;
+    var activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
+    if (
+        (activeElTagName == "textarea") || (activeElTagName == "input" &&
+            /^(?:text|search|password|tel|url)$/i.test(activeEl.type)) &&
+        (typeof activeEl.selectionStart == "number")
+    ) {
+        text = activeEl.value.slice(activeEl.selectionStart, activeEl.selectionEnd);
+    } else if (window.getSelection) {
+        text = window.getSelection().toString();
+    }
+    return text;
 }
