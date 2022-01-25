@@ -24,6 +24,14 @@ document.addEventListener("selectionchange", function () {
     RE.backuprange();
 });
 
+RE.editor.oninput = RE.editor.onclick = RE.editor.oncontextmenu = () => RE.callback("input");
+
+RE.editor.onkeyup = ({ key }) => {
+    if (['Arrow', 'Page', 'Home', 'End'].some(type => key.startsWith(type))) {
+        RE.callback("input");
+    }
+}
+
 //looks specifically for a Range selection and not a Caret selection
 RE.rangeSelectionExists = function () {
     //!! coerces a null to bool
