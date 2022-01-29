@@ -20,7 +20,7 @@
   color-scheme: light dark;
 }
 
-:not(code) {
+:not(code, b, i) {
   font: -apple-system-body !important;
 }
 
