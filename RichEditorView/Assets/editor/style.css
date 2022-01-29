@@ -20,6 +20,14 @@
   color-scheme: light dark;
 }
 
+:not(code) {
+  font: -apple-system-body !important;
+}
+
+:not(blockquote) {
+  background-color: transparent !important;
+}
+
 body,
 html {
   height: 100%;
