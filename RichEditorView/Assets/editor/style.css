@@ -127,7 +127,12 @@ h6 {
   line-height: 18px;
 }
 
-ul {
+ul,
+ol {
+  padding-left: 35px;
+}
+
+/* ul {
   list-style: none;
   padding-left: 0;
 }
@@ -155,7 +160,7 @@ ol li:before {
   content: counter(item) '.  ';
   counter-increment: item;
   color: #467eea;
-}
+} */
 
 blockquote {
   margin-left: 0;
