@@ -20,7 +20,7 @@
   color-scheme: light dark;
 }
 
-:not(code, b, i) {
+:not(code, b, i, h1, h2, h3, h4, h5, h6) {
   font: -apple-system-body !important;
 }
 
@@ -38,7 +38,7 @@ body {
   overflow: auto;
   overflow-x: hidden;
   margin: 0;
-  font: -apple-system-body;
+  font: -apple-system-body !important;
 }
 
 @media (prefers-color-scheme: dark) {
