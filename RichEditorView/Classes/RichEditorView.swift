@@ -199,6 +199,12 @@ private let DefaultInnerLineHeight: Int = 21
             handler(r)
         }
     }
+
+    public func getMarkdown(handler: @escaping (String) -> Void) {
+        runJS("RE.getMarkdown()") { r in
+            handler(r)
+        }
+    }
     
     /// Text representation of the data that has been input into the editor view, if it has been loaded.
     public func getText(handler: @escaping (String) -> Void) {

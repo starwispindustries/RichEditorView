@@ -114,6 +114,17 @@ RE.getHtml = function () {
     return RE.editor.innerHTML;
 };
 
+RE.getMarkdown = function () {
+    var html = RE.editor.innerHTML;
+    html = html.replace("<strike>", "~~");
+    html = html.replace("</strike>", "~~");
+
+    var turndownService = new TurndownService({ headingStyle: "atx", emDelimiter: "*" });
+    var markdown = turndownService.turndown(html);
+    return markdown;
+}
+
+
 RE.getText = function () {
     return RE.editor.innerText;
 };
