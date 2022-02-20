@@ -555,7 +555,8 @@ private let DefaultInnerLineHeight: Int = 21
             updateHeight()
         }
         else if method.hasPrefix("input") {
-            scrollCaretToVisible()
+            //Commented due to automatic scroll up
+            // scrollCaretToVisible()
             runJS("RE.getHtml()") { content in
                 self.contentHTML = content
                 self.updateHeight()
