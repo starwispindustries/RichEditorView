@@ -130,7 +130,8 @@ h6 {
 
 ul,
 ol {
-  padding-left: 35px;
+  padding-left: 0;
+  list-style-position: inside;
 }
 
 /* ul {
